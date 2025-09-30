@@ -10,6 +10,7 @@ public static class DependencyInjectionConfig
     {
         // Application Services
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IUserService, UserService>();
 
         // Infrastructure
         services.AddSingleton<IProductRepo, InMemoryProductRepo>();

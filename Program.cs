@@ -30,5 +30,7 @@ app.UseRateLimiter();
 // Map endpoints
 app.MapSystemEndpoints();
 app.MapProductEndpoints();
+app.MapUserEndpoints();
+app.MapAdminEndpoints();
 
 app.Run();
