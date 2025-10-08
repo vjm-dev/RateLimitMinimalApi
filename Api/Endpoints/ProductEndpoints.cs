@@ -1,5 +1,6 @@
 ﻿using RateLimitMinimalApi.Core.App.DTOs;
 using RateLimitMinimalApi.Core.App.Services;
+using RateLimitMinimalApi.Api.Configs;
 
 namespace RateLimitMinimalApi.Api.Endpoints;
 
@@ -10,17 +11,17 @@ public static class ProductEndpoints
         var productGroup = app.MapGroup("/api/products");
 
         productGroup.MapGet("/", GetAllProducts)
-            .RequireRateLimiting("FixedPolicy")
+            .RequireRateLimiting(Constants.FIXED_POLICY)
             .WithName("GetProducts")
             .WithOpenApi();
 
         productGroup.MapGet("/{id:int}", GetProductById)
-            .RequireRateLimiting("SlidingPolicy")
+            .RequireRateLimiting(Constants.SLIDING_POLICY)
             .WithName("GetProductById")
             .WithOpenApi();
 
         productGroup.MapPost("/", CreateProduct)
-            .RequireRateLimiting("FixedPolicy")
+            .RequireRateLimiting(Constants.FIXED_POLICY)
             .WithName("CreateProduct")
             .WithOpenApi();
     }

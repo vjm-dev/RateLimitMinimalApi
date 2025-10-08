@@ -1,4 +1,5 @@
 ﻿using RateLimitMinimalApi.Core.Domain.Interfaces.Repos;
+using RateLimitMinimalApi.Api.Configs;
 
 namespace RateLimitMinimalApi.Api.Endpoints;
 
@@ -9,7 +10,7 @@ public static class AdminEndpoints
         var adminGroup = app.MapGroup("/api/admin");
 
         adminGroup.MapGet("/stats", GetAdminStats)
-            .RequireRateLimiting("IPBasedPolicy")
+            .RequireRateLimiting(Constants.IP_BASED_POLICY)
             .WithName("GetAdminStats")
             .WithOpenApi();
     }

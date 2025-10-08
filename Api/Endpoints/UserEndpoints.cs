@@ -1,5 +1,6 @@
 ﻿using RateLimitMinimalApi.Core.App.DTOs;
 using RateLimitMinimalApi.Core.App.Services;
+using RateLimitMinimalApi.Api.Configs;
 
 namespace RateLimitMinimalApi.Api.Endpoints;
 
@@ -10,17 +11,17 @@ public static class UserEndpoints
         var userGroup = app.MapGroup("/api/users");
 
         userGroup.MapGet("/", GetAllUsers)
-            .RequireRateLimiting("TokenPolicy")
+            .RequireRateLimiting(Constants.TOKEN_POLICY)
             .WithName("GetUsers")
             .WithOpenApi();
 
         userGroup.MapGet("/{id:int}", GetUserById)
-            .RequireRateLimiting("TokenPolicy")
+            .RequireRateLimiting(Constants.TOKEN_POLICY)
             .WithName("GetUserById")
             .WithOpenApi();
 
         userGroup.MapPost("/", CreateUser)
-            .RequireRateLimiting("TokenPolicy")
+            .RequireRateLimiting(Constants.TOKEN_POLICY)
             .WithName("CreateUser")
             .WithOpenApi();
     }

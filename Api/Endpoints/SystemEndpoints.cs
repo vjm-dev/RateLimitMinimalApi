@@ -1,4 +1,6 @@
-﻿namespace RateLimitMinimalApi.Api.Endpoints;
+﻿using RateLimitMinimalApi.Api.Configs;
+
+namespace RateLimitMinimalApi.Api.Endpoints;
 
 public static class SystemEndpoints
 {
@@ -16,32 +18,55 @@ public static class SystemEndpoints
             var policies = new[]
             {
                 new {
-                    Name = "FixedPolicy",
-                    Description = "Fixed Window - 5 requests per 10 seconds",
-                    Window = "10 seconds",
-                    Limit = 5
+                    Name = Constants.FIXED_POLICY,
+                    Type = Constants.POLICY_TYPE_FIXED_WINDOW,
+                    Description = Constants.FIXED_DESCRIPTION,
+                    Window = Constants.FIXED_WINDOW_DISPLAY,
+                    Limit = Constants.FIXED_PERMIT_LIMIT,
+                    QueueLimit = Constants.FIXED_QUEUE_LIMIT
                 },
                 new {
-                    Name = "SlidingPolicy",
-                    Description = "Sliding Window - 10 requests per minute",
-                    Window = "1 minute",
-                    Limit = 10
+                    Name = Constants.SLIDING_POLICY,
+                    Type = Constants.POLICY_TYPE_SLIDING_WINDOW,
+                    Description = Constants.SLIDING_DESCRIPTION,
+                    Window = Constants.SLIDING_WINDOW_DISPLAY,
+                    Limit = Constants.SLIDING_PERMIT_LIMIT,
+                    QueueLimit = Constants.SLIDING_QUEUE_LIMIT
                 },
                 new {
-                    Name = "TokenPolicy",
-                    Description = "Token Bucket - 20 tokens, 5 tokens/15 seconds",
-                    Window = "15 seconds",
-                    Limit = 20
+                    Name = Constants.TOKEN_POLICY,
+                    Type = Constants.POLICY_TYPE_TOKEN_BUCKET,
+                    Description = Constants.TOKEN_DESCRIPTION,
+                    Window = Constants.TOKEN_WINDOW_DISPLAY,
+                    Limit = Constants.TOKEN_LIMIT,
+                    QueueLimit = Constants.TOKEN_QUEUE_LIMIT
                 },
                 new {
-                    Name = "IPBasedPolicy",
-                    Description = "IP Based - 8 requests per 30 seconds per IP",
-                    Window = "30 seconds",
-                    Limit = 8
+                    Name = Constants.IP_BASED_POLICY,
+                    Type = Constants.POLICY_TYPE_IP_BASED,
+                    Description = Constants.IP_DESCRIPTION,
+                    Window = Constants.IP_WINDOW_DISPLAY,
+                    Limit = Constants.IP_PERMIT_LIMIT,
+                    QueueLimit = Constants.IP_QUEUE_LIMIT
+                },
+                new {
+                    Name = Constants.CONCURRENCY_POLICY,
+                    Type = Constants.POLICY_TYPE_CONCURRENCY,
+                    Description = Constants.CONCURRENCY_DESCRIPTION,
+                    Window = Constants.CONCURRENCY_WINDOW_DISPLAY,
+                    Limit = Constants.CONCURRENCY_PERMIT_LIMIT,
+                    QueueLimit = Constants.CONCURRENCY_QUEUE_LIMIT
                 }
             };
 
-            return Results.Ok(new { rateLimitPolicies = policies });
+            return Results.Ok(new { 
+                rateLimitPolicies = policies,
+                globalSettings = new {
+                    retryAfterSeconds = Constants.GLOBAL_RETRY_AFTER_SECONDS,
+                    contentType = Constants.GLOBAL_RESPONSE_CONTENT_TYPE,
+                    errorType = Constants.GLOBAL_ERROR_TYPE
+                }
+            });
         })
         .WithName("GetRateLimitInfo")
         .WithOpenApi();
